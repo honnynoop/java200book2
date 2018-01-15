@@ -1,0 +1,68 @@
+01: package kr.co.infopub.chapter.s085;
+02: import java.util.ArrayList;
+03: import java.util.Collections;
+04: import java.util.Iterator;
+05: import java.util.LinkedHashMap;
+06: import java.util.List;
+07: import java.util.Map;
+08: import javafx.scene.image.Image;
+09: 
+10: public class ImageFXListRequest {
+11:  private Map<String, Image> images;
+12:  public ImageFXListRequest() {
+13: 	images= Collections
+14: 	 .synchronizedMap(new LinkedHashMap<String, Image>(10, 1.53f, true));
+15:  }
+16:  public synchronized Image loadImage(String imagesrc) {
+17: 	Image mimage=null;
+18: 	if (images.containsKey(imagesrc)) {
+19: 		mimage= images.get(imagesrc);
+20: 	} else {
+21: 		if(imagesrc!=null && !imagesrc.contains("q_____")){
+22: 			try{
+23: 				mimage= new Image(imagesrc,100,100,true,true);
+24: 			}catch (Exception e) {
+25: 				mimage=null;;
+26: 			}
+27: 		}
+28: 	}
+29: 	return mimage==null ? new Image(getClass()
+30: 			              .getResourceAsStream("billboard.jpg")):mimage;
+31:  } 
+32:  public synchronized void getAllImages(ArrayList<Billbaord> bills){
+33: 	images.clear(); 
+34: 	List<Billbaord> newbills=Collections.synchronizedList(bills);
+35: 	for(Billbaord bb: newbills){
+36: 		new Thread(() ->{
+37: 			if(!images.containsKey(bb.getImagesrc())){
+38: 				images.put(bb.getImagesrc(),loadImage(bb.getImagesrc()));
+39: 				System.out.println(bb.getImagesrc()+
+40: 						            "\t\t\t---Map에  Image저장----->>>>>>");  
+41: 			}
+42: 		}).start();
+43: 	}
+44:  }
+45:  public synchronized void printImage(){
+46: 	 System.out.println(images.size());
+47: 	 Iterator<String> imagekeys=images.keySet().iterator();
+48: 	 while(imagekeys.hasNext()){
+49: 		 String key=imagekeys.next();
+50: 		 //Image val=images.get(key);
+51: 		 System.out.printf("key=%s\n",key); // 키만 출력
+52: 	 }
+53:  }
+54:  public static void main(String[] args) {
+55: 	    ImageFXListRequest  request=new ImageFXListRequest();
+56: 	    RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+57: 	    String a="http://www.billboard.com/charts/hot-100/";
+58: 		String rs=rfw.getTimeDate(a);
+59: 		//rs=rfw.toWantedDay(rs ,1);  // 1 주전
+60: 		System.out.println(rs+"------------------Billboard Chart !!!");
+61: 		rfw.getAllHtml(a);
+62: 		String str="<article class=\"chart-row";
+63: 		rfw.getBillboardData(str);
+64: 		ArrayList<Billbaord> bills=rfw.getBillbaords();
+65: 		request.getAllImages(bills);  //image를 맵에 저장
+66: 		request.printImage();
+67:  }
+68: }

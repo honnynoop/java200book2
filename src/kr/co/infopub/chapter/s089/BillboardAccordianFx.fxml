@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kr.co.infopub.chapter.s089.BillboardAccordianFxController">
+   <left>
+      <BorderPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <center>
+            <ScrollPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+               <content>
+                  <BorderPane prefHeight="800.0" prefWidth="300.0">
+                     <center>
+                        <Accordion fx:id="baccordina" prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </content>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </ScrollPane>
+         </center>
+      </BorderPane>
+   </left>
+   <center>
+      <BorderPane prefHeight="800.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <left>
+            <BorderPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+               <center>
+                  <TreeView fx:id="youtrv" prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </left>
+         <center>
+            <BorderPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <center>
+                  <BorderPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+                     <center>
+                        <WebView fx:id="webview" prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </center>
+            </BorderPane>
+         </center>
+      </BorderPane>
+   </center>
+</BorderPane>

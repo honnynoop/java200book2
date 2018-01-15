@@ -1,0 +1,51 @@
+01: <?xml version="1.0" encoding="UTF-8"?>
+02: 
+03: <?import javafx.scene.web.*?>
+04: <?import javafx.geometry.*?>
+05: <?import java.lang.*?>
+06: <?import javafx.scene.control.*?>
+07: <?import javafx.scene.layout.*?>
+08: <?import javafx.scene.layout.BorderPane?>
+09: 
+10: <BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kr.co.infopub.chapter.s089.BillboardAccordianFxController">
+11:    <left>
+12:       <BorderPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+13:          <center>
+14:             <ScrollPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+15:                <content>
+16:                   <BorderPane prefHeight="800.0" prefWidth="300.0">
+17:                      <center>
+18:                         <Accordion fx:id="baccordina" prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+19:                      </center>
+20:                   </BorderPane>
+21:                </content>
+22:                <BorderPane.margin>
+23:                   <Insets />
+24:                </BorderPane.margin>
+25:             </ScrollPane>
+26:          </center>
+27:       </BorderPane>
+28:    </left>
+29:    <center>
+30:       <BorderPane prefHeight="800.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+31:          <left>
+32:             <BorderPane prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+33:                <center>
+34:                   <TreeView fx:id="youtrv" prefHeight="800.0" prefWidth="300.0" BorderPane.alignment="CENTER" />
+35:                </center>
+36:             </BorderPane>
+37:          </left>
+38:          <center>
+39:             <BorderPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+40:                <center>
+41:                   <BorderPane prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+42:                      <center>
+43:                         <WebView fx:id="webview" prefHeight="800.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+44:                      </center>
+45:                   </BorderPane>
+46:                </center>
+47:             </BorderPane>
+48:          </center>
+49:       </BorderPane>
+50:    </center>
+51: </BorderPane>

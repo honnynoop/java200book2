@@ -1,0 +1,18 @@
+01: package kr.co.infopub.chapter.s070;
+02: public class BillboardMain2 {
+03: 	public static void main(String[] args) {
+04: 		//Data를 객체로 저장
+05: 		Billbaord b1 =new Billbaord(1,"Despacito",1,
+06: 		  "http://www.billboard.com/images/pref_images/q61808osztw.jpg","luis fonsi");
+07: 		//객체 출력
+08: 		showAbout(b1); 
+09: 		//객체로 전달
+10: 		Billbaord b=b1;    //주소 복사
+11: 		showAbout(b);      //객체 내용을 출력
+12: 	}
+13: 	public static void showAbout(Billbaord bb ){//객체를 전달하여 출력
+14: 		String sf=String.format("%d, %s, %d, %s, %s",
+15: 			bb.getRank(), bb.getSong(),bb.getLastweek(),bb.getImagesrc(),bb.getArtist());
+16: 		System.out.println(sf);
+17: 	}
+18: }

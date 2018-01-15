@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kr.co.infopub.chapter.s089_2.BillboardAccordianFxController">
+   <center>
+      <ScrollPane BorderPane.alignment="CENTER">
+         <content>
+            <BorderPane>
+               <center>
+                  <Accordion fx:id="baccordina" BorderPane.alignment="CENTER"/>
+               </center>
+            </BorderPane>
+         </content>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </ScrollPane>
+   </center>
+</BorderPane>

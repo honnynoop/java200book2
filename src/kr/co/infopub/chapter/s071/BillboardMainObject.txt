@@ -1,0 +1,35 @@
+01: package kr.co.infopub.chapter.s071;
+02: public class BillboardMainObject {
+03:    public static void main(String[] args) {
+04: 		Billbaord b1 =new Billbaord(1,"Despacito",1,
+05: 			"http://www.billboard.com/images/pref_images/q61808osztw.jpg","luis fonsi");
+06: 	Billbaord b2 =new Billbaord(2,"That's What I Like",2,
+07: 			"http://www.billboard.com/images/pref_images/q59725qvpol.jpg","bruno mars");
+08: 	Billbaord b3 =new Billbaord(3,"I'm The One",3,
+09: 			"http://www.billboard.com/images/pref_images/q64532pl64x.jpg","dj khaled");
+10: 	showAbout(b1);         // 1개 객체
+11: 	showAbout(b2);         // 1개 객체
+12: 	showAbout(b1,b2);      // 2개 객체
+13: 	showAbout(b1,b2,b3);   // 3개 객체
+14: 	Billbaord[] b=new Billbaord[3];
+15: 	b[0]=new Billbaord(1,"Despacito",1,
+16: 			"http://www.billboard.com/images/pref_images/q61808osztw.jpg","luis fonsi");
+17: 	b[1]=b2;  //생성해도 좋고 , 생성된 객체를 받아도 된다.
+18: 	b[2]=b3;
+19: 	showAbout(b[0],b[1]);   // 2개 객체
+20: 	showAbout(b);           // 배열->3개 객체
+21:  }
+22:  public static void showAbout(Billbaord bb ){//객체를 전달하여 출력
+23: 	System.out.println("1----------------------");
+24: 	String sf=String.format("%d, %s, %d, %s, %s",
+25: 			bb.getRank(), bb.getSong(),bb.getLastweek(),bb.getImagesrc(),bb.getArtist());
+26: 	System.out.println(sf);
+27:  }
+28:  public static void showAbout(Billbaord ... b ){//객체를 전달하여 출력
+29: 	System.out.println("2======================>");
+30: 	for(Billbaord bill : b){
+31: 		showAbout(bill);  // 1
+32: 	}
+33: 	System.out.println("<======================2");
+34:  }
+35: }

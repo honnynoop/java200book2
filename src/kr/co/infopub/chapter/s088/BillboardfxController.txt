@@ -1,0 +1,115 @@
+001: package kr.co.infopub.chapter.s088;
+002: import java.util.ArrayList;
+003: import javafx.collections.ObservableList;
+004: import javafx.event.ActionEvent;
+005: import javafx.fxml.FXML;
+006: import javafx.scene.control.Button;
+007: import javafx.scene.control.Label;
+008: import javafx.scene.control.TableCell;
+009: import javafx.scene.control.TableColumn;
+010: import javafx.scene.control.TableView;
+011: import javafx.scene.image.ImageView;
+012: import javafx.scene.web.WebEngine;
+013: import javafx.scene.web.WebView;
+014: import javafx.util.Callback;
+015: public class BillboardfxController {
+016:  @FXML
+017:  private TableView<BillbaordProperty> billobardTable;
+018:  @FXML
+019:  private TableColumn<BillbaordProperty, String> song;
+020:  @FXML
+021:  private TableColumn<BillbaordProperty, String> artist;
+022:  @FXML
+023:  private TableColumn<BillbaordProperty, Integer> lastweek;
+024:  @FXML
+025:  private TableColumn<BillbaordProperty, Integer> rank;
+026:  @FXML
+027:  private TableColumn<BillbaordProperty, String> imagesrc;
+028:  @FXML
+029:  private WebView billwebview;
+030:  @FXML
+031:  private Button btnAf;
+032:  @FXML
+033:  private Button btnBf;
+034:  @FXML
+035:  private Label lbbill;
+036:  ImageFXListRequest  request=new ImageFXListRequest();
+037:  int count=0;
+038:  @FXML
+039:  void onClickBtnBf(ActionEvent event) {
+040: 	count++;
+041: 	getAllBillboard();
+042:  }
+043:  @FXML
+044:  void onClickBtnAf(ActionEvent event) {
+045: 	count=0;
+046: 	getAllBillboard();
+047:  }
+048:  @FXML
+049:  void initialize() {
+050:   rank.setCellValueFactory(cellData -> cellData.getValue().rankProperty().asObject());
+051:   artist.setCellValueFactory(cellData -> cellData.getValue().artistProperty());
+052:   song.setCellValueFactory(cellData -> cellData.getValue().songProperty());
+053:   imagesrc.setCellValueFactory(cellData -> cellData.getValue().imagesrcProperty());
+054:   lastweek.setCellValueFactory(cellData -> cellData.getValue().lastweekProperty().asObject());
+055: 	rank.setStyle("-fx-alignment: CENTER");     
+056: 	lastweek.setStyle("-fx-alignment: CENTER");  
+057: 	imagesrc.setCellFactory(new Callback<TableColumn<
+058: 	                 BillbaordProperty, String>,TableCell<BillbaordProperty, String>>(){        
+059: 		@Override
+060: 		public TableCell<BillbaordProperty, String> 
+061: 		                            call(TableColumn<BillbaordProperty, String> param) {                
+062: 			TableCell<BillbaordProperty, String> cell =
+063: 					new TableCell<BillbaordProperty, String>(){
+064: 				final ImageView imageview = new ImageView();
+065: 				@Override
+066: 				public void updateItem(String item, boolean empty) {                        
+067: 					if(item!=null){                            
+068: 						imageview.setFitHeight(100);
+069: 						imageview.setImage(request.loadImage(item));
+070: 						setGraphic(imageview);
+071: 					}
+072: 				}
+073: 			};            
+074: 			return cell;
+075: 		}
+076: 	});
+077: 	final WebEngine webEngine = billwebview.getEngine();
+078: 	billobardTable.setOnMouseClicked(e ->{
+079:     	if(billobardTable.getSelectionModel().getSelectedItem()!=null ){
+080:     		BillbaordProperty billboard = 
+081:     		   (BillbaordProperty)billobardTable.getSelectionModel().getSelectedItem();
+082:     		webEngine.load(
+083:     		   "https://www.youtube.com/results?search_query="+toP(billboard.getSong()));
+084:     	}
+085:       }
+086:     );
+087:     //빌보드 차트 읽기
+088: 	getAllBillboard();
+089:  }
+090:  public String toP(String msg){
+091:     String ss=msg;
+092:     ss=ss.replaceAll(" ", "+");
+093:     return ss.trim();
+094:  }
+095:  public void getAllBillboard(){
+096: 	RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+097: 	String a="http://www.billboard.com/charts/hot-100/";
+098: 	String rs=rfw.getTimeDate(a);
+099: 	rs=rfw.toWantedDay(rs, count); //1주전
+100: 	System.out.println(rs+"--------Billboard Chart !!!");
+101: 	rfw.getAllHtml(a+rs);
+102: 	String str="<article class=\"chart-row";
+103: 	rfw.getBillboardData(str);
+104: 	ArrayList<Billbaord> bills=rfw.getBillbaords();
+105: 	
+106: 	request.getAllImages(bills);  //image를 맵에 저장
+107: 	ObservableList<BillbaordProperty> obsbills=
+108: 			                     BillboardConvert.toObservBill(bills);
+109: 	populateEmployees(obsbills);
+110: 	lbbill.setText("Billboard Chat HOT 100 "+rs);
+111:  }
+112:  public void populateEmployees (ObservableList<BillbaordProperty> bills)  {
+113: 	billobardTable.setItems(bills);
+114:  }
+115: }

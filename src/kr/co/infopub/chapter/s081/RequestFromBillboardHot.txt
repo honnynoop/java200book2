@@ -1,0 +1,228 @@
+001: package kr.co.infopub.chapter.s081;
+002: 
+003: import java.io.BufferedInputStream;
+004: import java.io.BufferedReader;
+005: import java.io.InputStream;
+006: import java.io.InputStreamReader;
+007: import java.net.HttpURLConnection;
+008: import java.net.URL;
+009: import java.text.ParseException;
+010: import java.text.SimpleDateFormat;
+011: import java.util.ArrayList;
+012: import java.util.Calendar;
+013: import java.util.Date;
+014: 
+015: public class RequestFromBillboardHot {
+016: 	
+017: 	ArrayList<String> htmls=new ArrayList<String>();
+018: 	ArrayList<Billbaord> billbaords=new ArrayList<Billbaord>();
+019: 	public RequestFromBillboardHot() {
+020: 		htmls.clear();
+021: 		billbaords.clear();
+022: 	}
+023: 
+024: 	public ArrayList<Billbaord> getBillbaords() {
+025: 		return billbaords;
+026: 	}
+027: 
+028: 	boolean isConnection=false;
+029: 	
+030: 	public void getAllHtml(String newUrls){
+031: 		htmls.clear();
+032: 		InputStream inputStream;
+033: 		URL url=null;
+034: 		try {
+035: 			url= new URL(newUrls);
+036: 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+037: 	
+038: 			inputStream = new BufferedInputStream(urlConnection.getInputStream());
+039: 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "euc-kr"), 8);
+040: 	
+041: 			String line = null;
+042: 			while ((line = reader.readLine()) != null)
+043: 			{
+044: 				if(!line.trim().equals("")){
+045: 
+046: 					htmls.add(line.trim());
+047: 				}
+048: 			}
+049: 			inputStream.close();
+050: 			isConnection=true;
+051: 
+052: 		} catch (Exception e) {
+053: 			isConnection = false;
+054: 			System.out.println("Billboard Parsing error !!! ");
+055: 		} 
+056: 	}
+057: 	public String getTimeDate(String newUrls){
+058: 		String s="";
+059: 		InputStream inputStream;
+060: 		URL url=null;
+061: 		try {
+062: 			url= new URL(newUrls);
+063: 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+064: 			inputStream = new BufferedInputStream(urlConnection.getInputStream());
+065: 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "euc-kr"), 8);
+066: 			
+067: 	
+068: 			String line = null;
+069: 			while ((line = reader.readLine()) != null)
+070: 			{
+071: 				if(!line.trim().equals("")){
+072: 					
+073:                     if(line.trim().contains("<time datetime=")){
+074:                     	//<time datetime="2016-08-13">August 13, 2016</time>
+075: 					    s=line.trim();
+076: 						s=s.substring(0,s.indexOf(">")-1);//<time datetime="2016-08-13
+077: 						s=s.substring(s.indexOf("\"")+1).trim();//2016-08-13
+078: 					    break;
+079:                     }
+080: 				}
+081: 			}
+082: 			inputStream.close();
+083: 			isConnection=true;
+084: 
+085: 		} catch (Exception e) {
+086: 			isConnection = false;
+087: 			System.out.println("Billboard Parsing error !!! ");
+088: 		} 
+089: 		return s;
+090: 	}
+091: 	
+092: 	public synchronized void getBillboardData(String msg){
+093: 		billbaords.clear();
+094: 		//int count=1;
+095: 		for (int i=0; i<htmls.size(); i++) {
+096: 			String ss=htmls.get(i);
+097: 			if(ss.contains(msg)){             //여기서 부터 시작    <article class=\"chart-row
+098: 				//System.out.println(count+++":"+ss.trim());
+099: 				// <article class="chart-row chart-row--2 js-chart-row is-lasttouch" 
+100: 				// data-hovertracklabel="Song Hover-That's What I Like" data-songtitle="That's What I Like" 
+101: 				// data-spotifytype="track" data-spotifyuri="track:0KKkJNfGyhkQ5aFogxQAPU" data-spotifyid="0KKkJNfGyhkQ5aFogxQAPU">
+102: 				String rank=ss.substring(ss.indexOf("chart-row--")+"chart-row--".length());  // 2 js-chart-row is-lasttouch" 
+103: 				rank=rank.substring(0,rank.indexOf("js")-1).trim();                          // 2 
+104: 				//System.out.println(rank);
+105: 				//System.out.println(ss);
+106: 				String song=ss.substring(ss.indexOf("Song Hover-")+"Song Hover-".length()); //That's What I Like" data-songtitle="That's What I Like" 
+107: 				song=song.substring(0,song.indexOf("\"")).trim();  //That's What I Like
+108: 				//System.out.println(replace(song));
+109: 				//chart-row__current-week
+110: 				int j=1;
+111: 				String imageurl=htmls.get(i+j);
+112: 				while(true){
+113: 					//<div class="chart-row__image" style="background-image: 
+114: 					//url(http://www.billboard.com/images/pref_images/q59725qvpol.jpg)">
+115: 					if(imageurl.contains("images/pref_images")){  // 있을 때까지 찾아 내려간다.있으면 나간다.
+116: 						break;
+117: 					}else{
+118: 						j++;
+119: 						imageurl=htmls.get(i+j);          // 있을 때까지 찾아 내려간다.
+120: 					}
+121: 				}
+122: 				// style="background-image: url(http://www.billboard.com/images/pref_images/q55963rka7z.jpg)"
+123: 				imageurl=imageurl.substring(imageurl.indexOf("http://"));  // http://www.billboard.com/images/pref_images/q55963rka7z.jpg)
+124: 				imageurl=imageurl.substring(0,imageurl.indexOf(".jpg")+".jpg".length()); // http://www.billboard.com/images/pref_images/q55963rka7z.jpg
+125: 				//System.out.println(imageurl);
+126: 				//System.out.println(count+++":"+imageurl);
+127: 				//a<a class="chart-row__artist" href="http://www.billboard.com/artist/301284/drake" data-tracklabel="Artist Name">
+128: 				int k=1;
+129: 				String artisturl=htmls.get(i+j+k);
+130: 				while(true){
+131: 					if(artisturl.contains("chart-row__artist")){  // chart-row__artist 있을 때까지 찾는다. 찾으면 나간다.
+132: 						break;
+133: 					}else{
+134: 						j++;
+135: 						artisturl=htmls.get(i+j+k);  // chart-row__artist 있을 때까지 찾는다.
+136: 					}
+137: 				}
+138: 				artisturl=artisturl.substring(artisturl.indexOf("http://"));
+139: 				artisturl=artisturl.substring(0,artisturl.indexOf("\""));
+140: 				//System.out.println(artisturl);
+141: 				
+142: 				String artist=artisturl.substring(artisturl.lastIndexOf("/")+1);
+143: 				artist=toArtis(artist);
+144: 				//System.out.println(artist);
+145: 				//System.out.println("------------------");
+146: 				// <div class="chart-row__last-week">
+147: 				// <span class="chart-row__label">Last Week</span>
+148: 				// <span class="chart-row__value">2</span>
+149: 				int m=1;
+150: 				String lastweek=htmls.get(i+j+k+m);
+151: 				while(true){
+152: 					if(lastweek.contains("chart-row__last-week")){ //<div class="chart-row__last-week">
+153: 						break;
+154: 					}else{
+155: 						j++;
+156: 						lastweek=htmls.get(i+j+k+m);
+157: 					}
+158: 				}
+159: 				//System.out.println(lastweek);
+160: 				
+161: 				int n=1;
+162: 			    lastweek=htmls.get(i+j+k+m+n);
+163: 				while(true){
+164: 					if(lastweek.contains("chart-row__value")){ //<span class="chart-row__value">2</span>
+165: 						break;
+166: 					}else{
+167: 						j++;
+168: 						lastweek=htmls.get(i+j+k+m+n);    // 몇줄내려가면 있다. 
+169: 					}
+170: 				}
+171: 				lastweek=lastweek.substring(lastweek.indexOf(">")+1);  // 2</span>
+172: 				lastweek=lastweek.substring(0,lastweek.indexOf("<")).trim(); // 2
+173: 				//System.out.println(__toStr(lastweek));
+174: 							
+175: 				Billbaord board=new Billbaord(
+176: 						toInt(rank), replace(song), 
+177: 						toInt(__toStr(lastweek)), 
+178: 						imageurl, artisturl, artist);
+179: 				billbaords.add(board);
+180: 			}
+181: 			
+182: 		}
+183: 	}
+184: 	public void printHtml(){
+185: 		for (String dto : htmls) {
+186: 			System.out.println(dto);
+187: 		}
+188: 	}
+189: 	public void printBillboard(){
+190: 		for (Billbaord dto : billbaords) {
+191: 			System.out.println(dto);
+192: 		}
+193: 	}
+194: 	
+195: 	public String replace(String msg){
+196: 		String ss=msg;
+197: 		ss=ss.replaceAll("&#039;", "'");
+198: 		ss=ss.replaceAll("&amp;", "&");
+199: 		ss=ss.replaceAll("&quot;", "\"");
+200: 		return ss.trim();
+201: 	}
+202: 	private String __toStr(String lastweek){
+203: 		return lastweek.contains("--")?101+"":lastweek;
+204: 	}
+205: 	private int toInt(String msg){
+206: 		return Integer.parseInt(msg==null ?"-1":msg.trim());
+207: 	}
+208: 	public String toArtis(String msg){
+209: 		return msg.replaceAll("-", " ");
+210: 	}
+211: 
+212: 	public static void main(String[] args) {
+213: 		RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+214: //
+215: 		String a="http://www.billboard.com/charts/hot-100/";
+216: 		//String a="http://www.billboard.com/charts/billboard-200";
+217: 		//String timedate="    <time datetime="2016-08-13">August 13, 2016</time>";
+218: 		//String atimedate="<time datetime=";
+219: 		String rs=rfw.getTimeDate(a);
+220: 		//rs=RestDay.toWantedDay(rs, 1); //1주전
+221: 		System.out.println(rs);
+222: 		rfw.getAllHtml(a+rs);
+223: 		String str="<article class=\"chart-row";
+224: 		rfw.getBillboardData(str);
+225: 		rfw.printBillboard();
+226: 
+227: 	}
+228: }

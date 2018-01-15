@@ -1,0 +1,26 @@
+01: package kr.co.infopub.chapter.s072;
+02: import java.util.ArrayList;
+03: public class BillboardArrayMain {
+04:  public static void main(String[] args) {
+05: 	ArrayList<Billbaord> bills=new ArrayList<>();
+06: 	bills.add(new Billbaord(1,"Despacito",1,
+07: 		"http://www.billboard.com/images/pref_images/q61808osztw.jpg","luis fonsi"));
+08: 	bills.add(new Billbaord(2,"That's What I Like",2,
+09: 		"http://www.billboard.com/images/pref_images/q59725qvpol.jpg","bruno mars"));
+10: 	bills.add(new Billbaord(3,"I'm The One",3,
+11: 		"http://www.billboard.com/images/pref_images/q64532pl64x.jpg","dj khaled"));
+12: 	System.out.println(bills.size());   // 3 
+13: 	showAbout(bills.get(0));  // 0번째 Billbaord 객체
+14: 	bills.remove(1);          // 1번쩨 삭제             
+15: 	System.out.println(bills.size());   // 2
+16: 	System.out.println("----------------------");
+17: 	for(Billbaord bb : bills){
+18: 		showAbout(bb);
+19: 	}
+20:  }
+21:  public static void showAbout(Billbaord bb ){//객체를 전달하여 출력
+22:  	String sf=String.format("%d, %s, %d, %s, %s",
+23: 		bb.getRank(), bb.getSong(),bb.getLastweek(),bb.getImagesrc(),bb.getArtist());
+24: 	System.out.println(sf);
+25:  }
+26: }

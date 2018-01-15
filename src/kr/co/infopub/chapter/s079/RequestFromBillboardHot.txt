@@ -1,0 +1,77 @@
+01: package kr.co.infopub.chapter.s079;
+02: import java.io.BufferedReader;
+03: import java.io.InputStreamReader;
+04: import java.net.URL;
+05: import java.util.ArrayList;
+06: 
+07: public class RequestFromBillboardHot {
+08:  ArrayList<String> htmls=new ArrayList<String>();
+09:  boolean isConnection=false;
+10: 
+11:  public RequestFromBillboardHot() {
+12: 	htmls.clear();
+13:  }
+14:  public void getAllHtml(String newUrls){
+15: 	htmls.clear();
+16: 	URL url=null;
+17: 	try {
+18: 		url= new URL(newUrls);    // 주소 찾기
+19: 		// 주소지에 빨대 꽂기
+20: 		BufferedReader reader = new BufferedReader(  
+21: 				     new InputStreamReader(url.openStream(), "euc-kr"), 8);
+22: 		String line = "";
+23: 		while ((line = reader.readLine()) != null){
+24: 			if(!line.trim().equals("")){
+25: 				htmls.add(line.trim());
+26: 			}
+27: 		}
+28: 		isConnection=true;
+29: 	} catch (Exception e) {
+30: 		isConnection = false;
+31: 		System.out.println("Billboard Parsing error !!! ");
+32: 	} 
+33:  }
+34:  public void printHtml(){
+35: 	for (String ss : htmls) {
+36: 		System.out.println(ss);
+37: 	}
+38:  }
+39:  public String getTimeDate(String newUrls){
+40: 	String s="";
+41: 	URL url=null;
+42: 	try {
+43: 		url= new URL(newUrls);    // 주소 찾기
+44: 		// 주소지에 빨대 꽂기
+45: 		BufferedReader reader = new BufferedReader(  
+46: 				     new InputStreamReader(url.openStream(), "euc-kr"), 8);
+47: 		String line = "";
+48: 		while ((line = reader.readLine()) != null){
+49: 			if(!line.trim().equals("")){
+50:                 if(line.trim().contains("<time datetime=")){
+51:                 	//<time datetime="2016-08-13">August 13, 2016</time>
+52: 				    s=line.trim();
+53: 					s=s.substring(0,s.indexOf(">")-1);//<time datetime="2016-08-13
+54: 					s=s.substring(s.indexOf("\"")+1).trim();//2016-08-13
+55: 				    break;
+56:                 }
+57: 			}
+58: 		}
+59: 		isConnection=true;
+60: 	} catch (Exception e) {
+61: 		isConnection = false;
+62: 		System.out.println("Billboard Parsing error !!! ");
+63: 	} 
+64: 	return s;
+65:  }
+66:  public static void main(String[] args) {
+67: 	RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+68: 	String a="http://www.billboard.com/charts/hot-100/";
+69: 	String rs=rfw.getTimeDate(a);
+70: 	System.out.println("이번 주 "+rs);
+71: 	rs=RestDay.toWantedDay(rs, 1);  //1주전 : s062 RestDay
+72: 	System.out.println("일주전 "+rs);
+73: 	System.out.println(rs);
+74: 	rfw.getAllHtml(a+rs);
+75: 	rfw.printHtml();
+76:  }
+77: }

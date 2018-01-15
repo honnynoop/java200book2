@@ -1,0 +1,31 @@
+01: package kr.co.infopub.chapter.s077;
+02: import java.io.BufferedReader;
+03: import java.io.InputStreamReader;
+04: import java.net.URL;
+05: import java.util.ArrayList;
+06: 
+07: public class BillboardArrayMain {
+08:  public static void main(String[] args) {
+09: 	ArrayList<String> htmls=new ArrayList<String>();
+10: 	String newUrls="http://www.billboard.com/charts/hot-100/";
+11: 	URL url=null;
+12: 	try {
+13: 		url= new URL(newUrls);    // 주소 찾기
+14: 		// 주소지에 빨대 꽂기
+15: 		BufferedReader reader = new BufferedReader(  
+16: 				     new InputStreamReader(url.openStream(), "euc-kr"), 8);
+17: 		String line = null;
+18: 		while ((line = reader.readLine()) != null){  // 한줄씩 읽어서 
+19: 			if(!line.trim().equals("")){             // 공백이 아니면 출력한다.
+20: 				htmls.add(line.trim());
+21: 			}
+22: 		}
+23: 	} catch (Exception e) {
+24: 		System.out.println("Billboard Parsing error !!! ");
+25: 	} 
+26: 	// ArrayList에 저장된 문자열을 출력
+27: 	for (String str : htmls) {
+28: 		System.out.println(str);
+29: 	}
+30:  }
+31: }

@@ -1,0 +1,18 @@
+01: package kr.co.infopub.chapter.s080;
+02: public class BillboardMain5 {
+03: 
+04: 	public static void main(String[] args) {
+05: 		RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+06: 		String a="http://www.billboard.com/charts/hot-100/";
+07: 		//String a="http://www.billboard.com/charts/billboard-200";
+08: 		//String timedate="    <time datetime="2016-08-13">August 13, 2016</time>";
+09: 		//String atimedate="<time datetime=";
+10: 		String rs=rfw.getTimeDate(a);
+11: 		rs=RestDay.toWantedDay(rs, 1);//1ÁÖÀü
+12: 		System.out.println(rs);
+13: 		rfw.getAllHtml(a+rs);
+14: 		String str="<article class=\"chart-row";
+15: 		rfw.getBillboardData(str);
+16: 		rfw.printBillboard();
+17: 	}
+18: }

@@ -1,0 +1,72 @@
+01: package kr.co.infopub.chapter.s083;
+02: 
+03: import java.text.ParseException;
+04: import java.text.SimpleDateFormat;
+05: import java.util.Calendar;
+06: import java.util.Date;
+07: 
+08: public class RestDay {
+09: 
+10: 	public static void main(String[] args) {
+11: 
+12: 		Calendar cal=Calendar.getInstance();
+13: 		int lastDay=cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+14: 		for (int i= 1; i <=lastDay; i++) {
+15: 			cal.set(Calendar.DAY_OF_MONTH, i);  //1일부터 마지막날까지 
+16: 			if(isRest(toYMD(cal))){             //휴일(토,일)확인
+17: 				System.out.println(toYMD(cal)+" is Rest Day.");
+18: 			}             
+19: 		}
+20: 		
+21: 	}
+22: 	public static String toYMD(Calendar dd){
+23: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+24: 		return sdf.format(dd.getTime());
+25: 	}
+26: 	
+27: 	public static boolean isRest(String day){
+28: 		//토, 일만 쉬도록 
+29: 		boolean isRest=false;
+30: 		Calendar tod= todate(day);
+31: 		if(tod.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || 
+32: 				tod.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY ){ //토요일 또는 일요일
+33: 			isRest=true;
+34: 		}
+35: 		return isRest;
+36: 	}
+37: 	
+38: 	public static String goGo(String ss,int day){
+39: 		Calendar cal=todate(ss);
+40: 		//-7일을 더하면 일주전
+41: 		cal.add(Calendar.DAY_OF_YEAR, day);
+42: 		//칼렌더를 문자열로 
+43: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+44: 		return sdf.format(cal.getTime());
+45: 	}
+46: 	public static String toWantedDay(String ss,int round){
+47: 		Calendar cal=todate(ss);
+48: 		//-7일을 더하면 일주전
+49: 		cal.add(Calendar.DAY_OF_YEAR, -(round*7));
+50: 		//칼렌더를 문자열로 
+51: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+52: 		return sdf.format(cal.getTime());
+53: 	}
+54: 	public static Calendar todate(String ss){
+55: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+56: 		Date dd=new Date();
+57: 		try {
+58: 			dd=sdf.parse(ss);
+59: 		} catch (ParseException e) {
+60: 		}
+61: 		Calendar cal=Calendar.getInstance();
+62: 		cal.setTime(dd);
+63: 		return cal;
+64: 	}
+65: 	
+66: 	public static String toDay(String rs){  // 8월 16, 2017
+67: 		SimpleDateFormat sdfDesired = new SimpleDateFormat("MMMMM dd, yyyy");
+68: 		Calendar ts=todate(rs);
+69: 		String sss=sdfDesired.format(ts.getTime());
+70: 		return sss;
+71: 	}
+72: }

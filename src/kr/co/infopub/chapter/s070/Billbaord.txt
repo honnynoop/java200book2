@@ -1,0 +1,71 @@
+01: package kr.co.infopub.chapter.s070;
+02: import java.io.Serializable;
+03: public class Billbaord implements Serializable {
+04: 	private int rank;         // 순위
+05: 	private String song;      // 곡명
+06: 	private int  lastweek;    // 전주 순위
+07: 	private String imagesrc;  // 가수사진
+08: 	private String artistsrc; // 가수정보
+09: 	private String artist;    // 가수이름
+10: 	public Billbaord() {}
+11: 	public Billbaord(int rank, String song, int lastweek, String imagesrc,
+12: 			String artistsrc, String artist) {
+13: 		super();
+14: 		this.rank = rank;
+15: 		this.song = song;
+16: 		this.lastweek = lastweek;
+17: 		this.imagesrc = imagesrc;
+18: 		this.artistsrc = artistsrc;
+19: 		this.artist = artist;
+20: 	}
+21: 	public Billbaord(int rank, String song, int lastweek, String imagesrc, String artist) {
+22: 		super();
+23: 		this.rank = rank;
+24: 		this.song = song;
+25: 		this.lastweek = lastweek;
+26: 		this.imagesrc = imagesrc;
+27: 		this.artist = artist;
+28: 	}
+29: 	@Override
+30: 	public String toString() {
+31: 		return "[rank=" + rank + ", song=" + song + ", lastweek="
+32: 				+ lastweek + ", imagesrc=" + imagesrc 
+33: 				 + ", artist=" + artist+"]";
+34: 	}
+35: 	public int getRank() {
+36: 		return rank;
+37: 	}
+38: 	public void setRank(int rank) {
+39: 		this.rank = rank;
+40: 	}
+41: 	public String getSong() {
+42: 		return song;
+43: 	}
+44: 	public void setSong(String song) {
+45: 		this.song = song;
+46: 	}
+47: 	public int getLastweek() {
+48: 		return lastweek;
+49: 	}
+50: 	public void setLastweek(int lastweek) {
+51: 		this.lastweek = lastweek;
+52: 	}
+53: 	public String getImagesrc() {
+54: 		return imagesrc;
+55: 	}
+56: 	public void setImagesrc(String imagesrc) {
+57: 		this.imagesrc = imagesrc;
+58: 	}
+59: 	public String getArtistsrc() {
+60: 		return artistsrc;
+61: 	}
+62: 	public void setArtistsrc(String artistsrc) {
+63: 		this.artistsrc = artistsrc;
+64: 	}
+65: 	public String getArtist() {
+66: 		return artist;
+67: 	}
+68: 	public void setArtist(String artist) {
+69: 		this.artist = artist;
+70: 	}
+71: }

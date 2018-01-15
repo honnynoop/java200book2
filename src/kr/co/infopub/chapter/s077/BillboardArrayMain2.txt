@@ -1,0 +1,43 @@
+01: package kr.co.infopub.chapter.s077;
+02: 
+03: import java.io.BufferedInputStream;
+04: import java.io.BufferedReader;
+05: import java.io.InputStream;
+06: import java.io.InputStreamReader;
+07: import java.net.HttpURLConnection;
+08: import java.net.URL;
+09: import java.util.ArrayList;
+10: 
+11: public class BillboardArrayMain2 {
+12: 
+13: 	public static void main(String[] args) {
+14: 		
+15: 		ArrayList<String> htmls=new ArrayList<String>();
+16: 		String newUrls="http://www.billboard.com/charts/hot-100/";
+17: 		InputStream inputStream=null;
+18: 		URL url=null;
+19: 		try {
+20: 			url= new URL(newUrls);    // 주소 찾기
+21: 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();  //주소 연결
+22: 			inputStream = new BufferedInputStream(urlConnection.getInputStream());  // 빨대 꽂기
+23: 			// 읽어 들이기
+24: 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "euc-kr"), 8);
+25: 			String line = "";
+26: 			while ((line = reader.readLine()) != null)  //한줄씩 읽어서 
+27: 			{
+28: 				if(!line.trim().equals("")){  // 공백이 아니면 출력한다.
+29: 					//System.out.println(line.trim());
+30: 					htmls.add(line.trim());     // ArrayList에 저장
+31: 				}
+32: 			}
+33: 			inputStream.close(); // 닫기
+34: 		} catch (Exception e) {
+35: 			System.out.println("Billboard Parsing error !!! ");
+36: 		} 
+37: 		// ArrayList에 저장된 문자열을 출력
+38: 		for (String str : htmls) {
+39: 			System.out.println(str);
+40: 		}
+41: 
+42: 	}
+43: }

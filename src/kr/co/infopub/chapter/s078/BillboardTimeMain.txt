@@ -1,0 +1,33 @@
+01: package kr.co.infopub.chapter.s078;
+02: import java.io.BufferedReader;
+03: import java.io.InputStreamReader;
+04: import java.net.URL;
+05: 
+06: public class BillboardTimeMain {
+07:  public static void main(String[] args) {
+08: 	String newUrls="http://www.billboard.com/charts/hot-100/";
+09: 	String s="";
+10: 	URL url=null;
+11: 	try {
+12: 		url= new URL(newUrls);    // 주소 찾기
+13: 		// 주소지에 빨대 꽂기
+14: 		BufferedReader reader = new BufferedReader(  
+15: 				     new InputStreamReader(url.openStream(), "euc-kr"), 8);
+16: 		String line = "";
+17: 		while ((line = reader.readLine()) != null){ // 한 줄씩 읽어 들인다.
+18: 			if(!line.trim().equals("")){            // 문자열이 있다면
+19: 				// <time datetime="2016-08-13">August 13, 2016</time>
+20:                 if(line.trim().contains("<time datetime=")){  // 찾기
+21: 				    s=line.trim();
+22: 					s=s.substring(0,s.indexOf(">")-1);  // <time datetime="2016-08-13
+23: 					s=s.substring(s.indexOf("\"")+1).trim();// 2016-08-13
+24: 				    break;
+25:                 }
+26: 			}
+27: 		}
+28: 	} catch (Exception e) {
+29: 		System.out.println("Billboard Parsing error !!! ");
+30: 	} 
+31:     System.out.println("이번 빌보드 차트 날짜 : "+s);
+32:  }
+33: }

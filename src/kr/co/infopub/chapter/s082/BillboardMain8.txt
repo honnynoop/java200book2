@@ -1,0 +1,36 @@
+01: package kr.co.infopub.chapter.s082;
+02: import org.json.JSONArray;
+03: import org.json.JSONObject;
+04: import java.io.FileReader;
+05: import java.io.BufferedReader;
+06: // json
+07: public class BillboardMain8 {
+08: 	public static void main(String[] args) {
+09: 		BufferedReader br=null;
+10: 		try {
+11: 			br=new BufferedReader(new FileReader("billboard\\2017-07-01.json"));
+12: 			StringBuffer sb=new StringBuffer();
+13: 			String msg="";
+14: 			while((msg=br.readLine())!=null){
+15: 				sb.append(msg);
+16: 			}
+17: 			JSONObject billboards=new JSONObject(sb.toString());
+18: 			JSONArray bills=billboards.getJSONArray("billboard");
+19: 			for(int i=0; i< bills.length() ;i++){
+20: 				System.out.println("------------------------------------");
+21: 				JSONObject bill=bills.getJSONObject(i);
+22: 				String rank=bill.getString("rank");
+23:     			String song=bill.getString("song");
+24:     			String lastweek=bill.getString("lastweek");
+25:     			String imagesrc=bill.getString("imagesrc");
+26:     			String artist=bill.getString("artist");
+27:     			String sf=String.format("%s, %s, %s, %s, %s",
+28:     					                rank, song,lastweek,imagesrc,artist);
+29:     			System.out.println(sf);
+30: 			}
+31: 		} catch (Exception e) {
+32: 			System.out.println(e);
+33: 		}
+34: 	}
+35: }
+36: 	  

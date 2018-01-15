@@ -1,0 +1,67 @@
+01: package kr.co.infopub.chapter.s088;
+02: 
+03: import java.io.Serializable;
+04: 
+05: public class Billbaord implements Serializable {
+06: 	private int rank;
+07: 	private String song;
+08: 	private int  lastweek;//¿¸¡÷ rank
+09: 	private String imagesrc;
+10: 	private String artistsrc;
+11: 	private String artist;
+12: 	public Billbaord() {
+13: 	}
+14: 	public Billbaord(int rank, String song, int lastweek, String imagesrc,
+15: 			String artistsrc, String artist) {
+16: 		super();
+17: 		this.rank = rank;
+18: 		this.song = song;
+19: 		this.lastweek = lastweek;
+20: 		this.imagesrc = imagesrc;
+21: 		this.artistsrc = artistsrc;
+22: 		this.artist = artist;
+23: 	}
+24: 	@Override
+25: 	public String toString() {
+26: 		return "Billbaord [rank=" + rank + ", song=" + song + ", lastweek="
+27: 				+ lastweek + ", imagesrc=" + imagesrc + ", artistsrc="
+28: 				+ artistsrc + ", artist=" + artist + "]";
+29: 	}
+30: 	public int getRank() {
+31: 		return rank;
+32: 	}
+33: 	public void setRank(int rank) {
+34: 		this.rank = rank;
+35: 	}
+36: 	public String getSong() {
+37: 		return song;
+38: 	}
+39: 	public void setSong(String song) {
+40: 		this.song = song;
+41: 	}
+42: 	public int getLastweek() {
+43: 		return lastweek;
+44: 	}
+45: 	public void setLastweek(int lastweek) {
+46: 		this.lastweek = lastweek;
+47: 	}
+48: 	public String getImagesrc() {
+49: 		return imagesrc;
+50: 	}
+51: 	public void setImagesrc(String imagesrc) {
+52: 		this.imagesrc = imagesrc;
+53: 	}
+54: 	public String getArtistsrc() {
+55: 		return artistsrc;
+56: 	}
+57: 	public void setArtistsrc(String artistsrc) {
+58: 		this.artistsrc = artistsrc;
+59: 	}
+60: 	public String getArtist() {
+61: 		return artist;
+62: 	}
+63: 	public void setArtist(String artist) {
+64: 		this.artist = artist;
+65: 	}
+66: 	
+67: }

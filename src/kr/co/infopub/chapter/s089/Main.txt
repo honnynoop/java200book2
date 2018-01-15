@@ -1,0 +1,26 @@
+01: package kr.co.infopub.chapter.s089;
+02: import javafx.application.Application;
+03: import javafx.stage.Stage;
+04: import javafx.scene.Scene;
+05: import javafx.scene.layout.BorderPane;
+06: import javafx.fxml.FXMLLoader;
+07: public class Main extends Application {
+08:  @Override
+09:  public void start(Stage primaryStage) {
+10: 	try {
+11: 		primaryStage.setTitle("Billboard Accordian");
+12: 		BorderPane root = (BorderPane)FXMLLoader.load(
+13: 				     getClass().getResource("BillboardAccordianFx.fxml"));
+14: 		Scene scene = new Scene(root,1200,800);
+15: 		scene.getStylesheets().add(
+16: 				getClass().getResource("application.css").toExternalForm());
+17: 		primaryStage.setScene(scene);
+18: 		primaryStage.show();
+19: 	} catch(Exception e) {
+20: 		e.printStackTrace();
+21: 	}
+22:  }
+23:  public static void main(String[] args) {
+24: 	launch(args);
+25:  }
+26: }

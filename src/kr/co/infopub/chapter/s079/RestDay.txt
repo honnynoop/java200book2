@@ -1,0 +1,60 @@
+01: package kr.co.infopub.chapter.s079;
+02: import java.text.ParseException;
+03: import java.text.SimpleDateFormat;
+04: import java.util.Calendar;
+05: import java.util.Date;
+06: // s062 RestDay
+07: public class RestDay {
+08: 	public static void main(String[] args) {
+09: 		Calendar cal=Calendar.getInstance();
+10: 		int lastDay=cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+11: 		for (int i= 1; i <=lastDay; i++) {
+12: 			cal.set(Calendar.DAY_OF_MONTH, i);  //1일부터 마지막날까지 
+13: 			if(isRest(toYMD(cal))){             //휴일(토,일)확인
+14: 				System.out.println(toYMD(cal)+" is Rest Day.");
+15: 			}             
+16: 		}
+17: 	}
+18: 	public static boolean isRest(String day){
+19: 		//토, 일만 쉬도록 
+20: 		boolean isRest=false;
+21: 		Calendar tod= todate(day);
+22: 		if(tod.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY || 
+23: 				tod.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY ){ //토요일 또는 일요일
+24: 			isRest=true;
+25: 		}
+26: 		return isRest;
+27: 	}
+28: 	public static String toYMD(Calendar dd){
+29: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+30: 		return sdf.format(dd.getTime());
+31: 	}
+32: 	public static String goGo(String ss,int day){
+33: 		Calendar cal=todate(ss);
+34: 		//-7일을 더하면 일주전
+35: 		cal.add(Calendar.DAY_OF_YEAR, day);
+36: 		// 칼렌더를 문자열로 
+37: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+38: 		return sdf.format(cal.getTime());
+39: 	}
+40: 	public static String toWantedDay(String ss,int round){
+41: 		return goGo(ss, -(round*7));
+42: 	}
+43: 	public static Calendar todate(String ss){
+44: 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+45: 		Date dd=new Date();
+46: 		try {
+47: 			dd=sdf.parse(ss);
+48: 		} catch (ParseException e) {
+49: 		}
+50: 		Calendar cal=Calendar.getInstance();
+51: 		cal.setTime(dd);
+52: 		return cal;
+53: 	}
+54: 	public static String toDay(String rs){  // 8월 16, 2017
+55: 		SimpleDateFormat sdfDesired = new SimpleDateFormat("MMMMM dd, yyyy");
+56: 		Calendar ts=todate(rs);
+57: 		String sss=sdfDesired.format(ts.getTime());
+58: 		return sss;
+59: 	}
+60: }

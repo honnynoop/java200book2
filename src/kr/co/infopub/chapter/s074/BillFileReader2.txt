@@ -1,0 +1,18 @@
+01: package kr.co.infopub.chapter.s074;
+02: // 파일 리더
+03: import java.io.BufferedReader;
+04: import java.io.FileReader;
+05: public class BillFileReader2 {
+06: 	public static void main(String[] args) {
+07: 		BufferedReader br=null;
+08: 		try {
+09: 			br=new BufferedReader(new FileReader("billboard\\bill.txt"));
+10: 			String msg="";
+11: 			while((msg=br.readLine())!=null){
+12: 			    System.out.println(msg);
+13: 			}
+14: 		} catch (Exception e) {
+15: 			System.out.println(e);
+16: 		}
+17: 	}
+18: }

@@ -1,0 +1,52 @@
+01: package kr.co.infopub.chapter.s089;
+02: 
+03: public class Youtube {
+04: 	private String title;
+05: 	private String url;
+06: 	private String img;
+07: 
+08: 	public Youtube() {
+09: 		
+10: 	}
+11: 	public Youtube(String title, String url, String img) {
+12: 		super();
+13: 		this.title = title;
+14: 		this.url = url;
+15: 		this.img = img;
+16: 	}
+17: 	@Override
+18: 	public String toString() {
+19: 		return "Youtube [title=" + title + ", url=" + url + ", img=" + img + "]";
+20: 	}
+21: 	public String getTitle() {
+22: 		return title;
+23: 	}
+24: 	public void setTitle(String title) {
+25: 		this.title = title;
+26: 	}
+27: 	public String getUrl() {
+28: 		return url;
+29: 	}
+30: 	public void setUrl(String url) {
+31: 		this.url = url;
+32: 	}
+33: 	public String getImg() {
+34: 		return img;
+35: 	}
+36: 	public void setImg(String img) {
+37: 		this.img = img;
+38: 	}
+39: 	public String getVname() {
+40: 		return toUrl(this.url);
+41: 	}
+42: 	//2017.4.12 /watch?v=PCaKey131NQ PCaKey131NQ 만 얻음
+43: 	public String toUrl(String msg){
+44: 		String tt="";
+45: 		if(msg.indexOf("=")==-1){//없다면
+46: 			tt=msg;
+47: 		}else{
+48: 			tt=msg.substring(msg.indexOf("=")+1);
+49: 		}
+50: 		return tt;
+51: 	}
+52: }

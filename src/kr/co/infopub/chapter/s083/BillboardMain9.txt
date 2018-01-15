@@ -1,0 +1,30 @@
+01: package kr.co.infopub.chapter.s083;
+02: import org.jdom2.input.SAXBuilder;
+03: import java.util.List;
+04: import org.jdom2.Document;
+05: import org.jdom2.Element;
+06: // jdom
+07: public class BillboardMain9 {
+08: 	public static void main(String[] args) {
+09: 		SAXBuilder builder = new SAXBuilder();
+10:         Document document = null;
+11:     	try {
+12:     		document= builder.build("billboard\\2017-07-01.xml");
+13:     		 Element root = document.getRootElement();
+14:     		 List<Element> billboards = root.getChildren("billboard");
+15:     		 for (Element ele: billboards) {
+16:     			String rank=ele.getChildText("rank");
+17:     			String song=ele.getChildText("song");
+18:     			String lastweek=ele.getChildText("lastweek");
+19:     			String imagesrc=ele.getChildText("imagesrc");
+20:     			String artist=ele.getChildText("artist");
+21:     			String sf=String.format("%s, %s, %s, %s, %s",
+22:     					rank, song,lastweek,imagesrc,artist);
+23:     			System.out.println(sf);
+24: 			 }
+25:     	}catch (Exception e) {
+26: 			System.out.println( e);
+27: 		}
+28: 	}
+29: }
+30: 	  

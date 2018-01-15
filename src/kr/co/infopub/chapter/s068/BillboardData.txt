@@ -1,0 +1,43 @@
+HTML
+<article class="chart-row chart-row--1 js-chart-row" data-hovertracklabel="Song Hover-Despacito" data-songtitle="Despacito">
+<span class="chart-row__current-week">1</span>
+<span class="chart-row__last-week">Last Week: 1</span>
+<div class="chart-row__image" style="background-image: url(http://www.billboard.com/images/pref_images/q61808osztw.jpg)">
+<h2 class="chart-row__song">Despacito</h2>
+<a class="chart-row__artist" href="http://www.billboard.com/artist/308529/luis-fonsi" data-tracklabel="Artist Name">
+Luis Fonsi &amp; Daddy Yankee Featuring Justin Bieber
+</a>
+
+CSV
+rank=1, song=Despacito, lastweek=1, imagesrc=http://www.billboard.com/images/pref_images/q61808osztw.jpg, artist=luis fonsi
+rank=2, song=That's What I Like, lastweek=2, imagesrc=http://www.billboard.com/images/pref_images/q59725qvpol.jpg, artist=bruno mars
+rank=3, song=I'm The One, lastweek=3, imagesrc=http://www.billboard.com/images/pref_images/q64532pl64x.jpg, artist=dj khaled
+
+JSON
+{"billboard": 
+[{"rank":"1","song":"Despacito","lastweek":"1","imagesrc":"http://www.billboard.com/images/pref_images/q61808osztw.jpg","artist":"luis fonsi"},
+{"rank":"2","song":"That's What I Like","lastweek":"2","imagesrc":"http://www.billboard.com/images/pref_images/q59725qvpol.jpg","artist":"bruno mars"},
+{"rank":"3","song":"I'm The One","lastweek":"3","imagesrc":"http://www.billboard.com/images/pref_images/q64532pl64x.jpg","artist":"dj khaled"}]
+}
+
+XML
+<?xml version='1.0' encoding='utf-8'?>
+<billboards>
+<billboard>
+<rank>1</rank> <song>Despacito</song> <lastweek>1</lastweek> <imagesrc>http://www.billboard.com/images/pref_images/q61808osztw.jpg</imagesrc> <artist>luis fonsi</artist>
+</billboard>
+<billboard>
+<rank>2</rank> <song>That&apos;s What I Like</song> <lastweek>2</lastweek> <imagesrc>http://www.billboard.com/images/pref_images/q59725qvpol.jpg</imagesrc> <artist>bruno mars</artist>
+</billboard>
+<billboard>
+<rank>3</rank> <song>I&apos;m The One</song> <lastweek>3</lastweek> <imagesrc>http://www.billboard.com/images/pref_images/q64532pl64x.jpg</imagesrc> <artist>dj khaled</artist>
+</billboard>
+</billboards>
+
+OBJECT
+Billbaord b1 =new Billbaord(1,"Despacito",1,"http://www.billboard.com/images/pref_images/q61808osztw.jpg","luis fonsi");
+Billbaord b2 =new Billbaord(2,"That's What I Like",2,"http://www.billboard.com/images/pref_images/q59725qvpol.jpg","bruno mars");
+Billbaord b3 =new Billbaord(3,"I'm The One",3,"http://www.billboard.com/images/pref_images/q64532pl64x.jpg","dj khaled");
+
+
+

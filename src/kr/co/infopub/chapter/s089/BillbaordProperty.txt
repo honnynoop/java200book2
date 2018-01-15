@@ -1,0 +1,91 @@
+01: package kr.co.infopub.chapter.s089;
+02: 
+03: import java.io.Serializable;
+04: import javafx.beans.property.IntegerProperty;
+05: import javafx.beans.property.SimpleIntegerProperty;
+06: import javafx.beans.property.SimpleStringProperty;
+07: import javafx.beans.property.StringProperty;
+08: 
+09: public class BillbaordProperty implements Serializable {
+10: 
+11:     private IntegerProperty rank;
+12:     private StringProperty artist;
+13:     private StringProperty song;
+14:     private StringProperty imagesrc;
+15:     /*private SimpleObjectProperty<Image> imagesrc;*/
+16:     private IntegerProperty lastweek;
+17:     
+18: 	public BillbaordProperty() {
+19:         this.rank = new SimpleIntegerProperty();
+20:         this.artist = new SimpleStringProperty();
+21:         this.song = new SimpleStringProperty();
+22:         this.imagesrc = new SimpleStringProperty();
+23: //        this.imagesrc = new SimpleObjectProperty<>();
+24:         this.lastweek = new SimpleIntegerProperty();
+25: 	}
+26: 
+27: 	public IntegerProperty rankProperty() {
+28: 		return rank;
+29: 	}
+30: 	public StringProperty artistProperty() {
+31: 		return artist;
+32: 	}
+33: 	public StringProperty songProperty() {
+34: 		return song;
+35: 	}
+36: 	public StringProperty imagesrcProperty() {
+37: 		return imagesrc;
+38: 	}
+39: 	public IntegerProperty lastweekProperty() {
+40: 		return lastweek;
+41: 	}
+42: 	public int getRank() {
+43: 		return rank.getValue();
+44: 	}
+45: 	
+46: 	public void setRank(int v) {
+47: 		this.rank.setValue(v);
+48: 	}
+49: 
+50: 	public String getArtist() {
+51: 		return artist.getValue();
+52: 	}
+53: 
+54: 	public void setArtist(String v) {
+55: 		this.artist.setValue(v);
+56: 	}
+57: 
+58: 	public String getSong() {
+59: 		return song.getValue();
+60: 	}
+61: 
+62: 	public void setSong(String song) {
+63: 		this.song.setValue(song);
+64: 	}
+65: 
+66: 	public String getImagesrc() {
+67: 		return imagesrc.getValue();
+68: 	}
+69: 
+70: 	public void setImagesrc(String imagesrc) {
+71: 		this.imagesrc.setValue(imagesrc);
+72: 	}
+73: 
+74: 	public int getLastweek() {
+75: 		return lastweek.getValue();
+76: 	}
+77: 
+78: 	public void setLastweek(int lastweek) {
+79: 		this.lastweek.setValue(lastweek);
+80: 	}
+81: 
+82: 	@Override
+83: 	public String toString() {
+84: 		return "[rank=" + rank.getValue() + ", artist=" + artist.getValue() + ", "
+85: 				+ "song=" + song.getValue() + ", imagesrc=" + imagesrc.getValue()
+86: 				+ ", lastweek=" + lastweek.getValue() + "]";
+87: 	}
+88: 
+89: 	
+90: 	
+91: }

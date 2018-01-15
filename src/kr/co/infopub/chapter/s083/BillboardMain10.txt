@@ -1,0 +1,54 @@
+01: package kr.co.infopub.chapter.s083;
+02: import java.io.File;
+03: import java.io.IOException;
+04: import javax.xml.parsers.DocumentBuilder;
+05: import javax.xml.parsers.DocumentBuilderFactory;
+06: import javax.xml.parsers.ParserConfigurationException;
+07: import org.w3c.dom.Document;
+08: import org.w3c.dom.Element;
+09: import org.w3c.dom.Node;
+10: import org.w3c.dom.NodeList;
+11: import org.xml.sax.SAXException;
+12: // xerces jse
+13: public class BillboardMain10 {
+14:  public static void main(String[] args) {
+15: 	DocumentBuilder db;
+16: 	try {
+17: 		db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+18: 		Document doc = db.parse(new File("billboard\\2017-07-01.xml"));
+19: 		Element root = (Element) doc.getDocumentElement();
+20: 		System.out.println(root.getTagName()); // billboards
+21: 	    NodeList nodes = doc.getElementsByTagName("billboard");
+22: 	    for (int i = 0; i < nodes.getLength(); i++) {
+23: 	      Element element = (Element) nodes.item(i);
+24: 	      NodeList ranklist = element.getElementsByTagName("rank");
+25: 	      Element rank = (Element) ranklist.item(0);
+26: 	      NodeList songlist = element.getElementsByTagName("song");
+27: 	      Element song = (Element) songlist.item(0);
+28: 	      NodeList lastweeklist = element.getElementsByTagName("lastweek");
+29: 	      Element lastweek = (Element) lastweeklist.item(0);
+30: 	      NodeList imagesrclist = element.getElementsByTagName("imagesrc");
+31: 	      Element imagesrc = (Element) imagesrclist.item(0);
+32: 	      NodeList artistlist = element.getElementsByTagName("artist");
+33: 	      Element artist = (Element) artistlist.item(0);
+34: 	      System.out.println(element.getTagName()+"---------------------");
+35: 	      System.out.println("rank: " + getCharacterDataFromElement(rank));
+36: 	      System.out.println("song: " + getCharacterDataFromElement(song));
+37: 	      System.out.println("lastweek: " + getCharacterDataFromElement(lastweek));
+38: 	      System.out.println("imagesrc: " + getCharacterDataFromElement(imagesrc));
+39: 	      System.out.println("artist: " + getCharacterDataFromElement(artist));
+40: 		}
+41: 	} catch (ParserConfigurationException | SAXException | IOException e) {
+42: 		System.out.println( e);
+43: 	}
+44:  }
+45:  //<tag>tag사이의 내용</tag>
+46:  public static String getCharacterDataFromElement(Element e) {
+47:     Node child = e.getFirstChild();
+48:     if (child instanceof org.w3c.dom.CharacterData) {
+49:       org.w3c.dom.CharacterData cd = (org.w3c.dom.CharacterData) child;
+50:       return cd.getData();
+51:     }
+52:     return "";
+53:   }
+54: }

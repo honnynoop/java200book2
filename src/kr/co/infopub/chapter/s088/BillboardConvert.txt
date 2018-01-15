@@ -1,0 +1,52 @@
+01: package kr.co.infopub.chapter.s088;
+02: import java.util.ArrayList;
+03: import javafx.collections.FXCollections;
+04: import javafx.collections.ObservableList;
+05: public class BillboardConvert {
+06:  public static BillbaordProperty toBill(Billbaord b){
+07: 	BillbaordProperty bp=new BillbaordProperty();
+08: 	bp.setRank(b.getRank());
+09: 	bp.setSong(b.getSong());
+10: 	bp.setArtist(b.getArtist());
+11: 	bp.setImagesrc(b.getImagesrc());
+12: 	bp.setLastweek(b.getLastweek());
+13: 	return bp;
+14:  }
+15:  public static ArrayList<BillbaordProperty> 
+16:                              toBill(ArrayList<Billbaord> blist){
+17: 	ArrayList<BillbaordProperty> bplists=new ArrayList<>();
+18: 	for(Billbaord b:blist){
+19: 		bplists.add(toBill(b));
+20: 	}
+21: 	return bplists;
+22:  } 
+23:  public static ObservableList<BillbaordProperty> 
+24:                 toBillboard(ArrayList<BillbaordProperty> alists){
+25: 	ObservableList<BillbaordProperty> bList =
+26: 			FXCollections.observableArrayList(alists);
+27: 	return bList;
+28:  }
+29:  public static ObservableList<BillbaordProperty>
+30:                       toObservBill(ArrayList<Billbaord> alists){
+31: 	return toBillboard(toBill(alists));
+32:  }
+33:  public static void main(String[] args) {
+34: 	RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+35: 	ImageFXListRequest  request=new ImageFXListRequest();
+36: 	String a="http://www.billboard.com/charts/hot-100/";
+37: 	String rs=rfw.getTimeDate(a);
+38: 	rs=rfw.toWantedDay(rs, 1); //1주전
+39: 	System.out.println(rs+"--------Billboard Chart !!!");
+40: 	rfw.getAllHtml(a+rs);
+41: 	String str="<article class=\"chart-row";
+42: 	rfw.getBillboardData(str);
+43: 	ArrayList<Billbaord> bills=rfw.getBillbaords();
+44: 	
+45: 	request.getAllImages(bills);  //image를 맵에 저장
+46: 	ObservableList<BillbaordProperty> obsbills=
+47: 			                    BillboardConvert.toObservBill(bills);
+48: 	for(BillbaordProperty bp: obsbills){
+49: 		System.out.println(bp);
+50: 	}
+51:  }
+52: }

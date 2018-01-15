@@ -1,0 +1,37 @@
+01: package kr.co.infopub.chapter.s086;
+02: 
+03: import javafx.application.Application;
+04: import javafx.scene.Group;
+05: import javafx.scene.Scene;
+06: import javafx.scene.image.Image;
+07: import javafx.scene.image.ImageView;
+08: import javafx.stage.Stage;
+09: // image read test 
+10: public class BillboardImageTest extends Application {
+11:  
+12:     public static void main(String[] args) {
+13:         launch(args);
+14:     }
+15:      
+16:     @Override
+17:     public void start(Stage primaryStage) {
+18: 
+19:         Group root = new Group();
+20:                  
+21:         String imageSource = "http://www.billboard.com/images/pref_images/q63694v2qz7.jpg";
+22:         //인터넷
+23:         ImageView imageView = new ImageView(new Image(imageSource));
+24:         //디렉토리 내 파일
+25:         //ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("billboard.jpg")));
+26:         Group myGroup = new Group();
+27:         myGroup.getChildren().add(imageView);
+28:         root.getChildren().add(myGroup);
+29:    
+30:         primaryStage.setScene(new Scene(root, 150, 150));
+31:         primaryStage.setTitle("Billboard Image");
+32:         primaryStage.show();
+33:     }
+34:     
+35: }
+36: 
+37:    

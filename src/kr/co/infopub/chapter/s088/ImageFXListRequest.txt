@@ -1,0 +1,58 @@
+01: package kr.co.infopub.chapter.s088;
+02: 
+03: import java.util.ArrayList;
+04: import java.util.Collections;
+05: import java.util.LinkedHashMap;
+06: import java.util.List;
+07: import java.util.Map;
+08: 
+09: import javafx.scene.image.Image;
+10: 
+11: public class ImageFXListRequest {
+12: 	private Map<String, Image> images;
+13: 	
+14: 	public ImageFXListRequest() {
+15: 		images= Collections
+16: 				.synchronizedMap(new LinkedHashMap<String, Image>(10, 1.5f, true));
+17: 	}
+18: 	
+19: 	public synchronized Image loadImage(String imagesrc) {
+20: 		Image mimage=null;
+21: 		if (images.containsKey(imagesrc)) {
+22: 			mimage= images.get(imagesrc);
+23: 		} else {
+24: 			if(imagesrc!=null && !imagesrc.contains("q_____")){
+25: 				try{
+26: 					mimage= new Image(imagesrc,100,100,true,true);
+27: 				}catch (Exception e) {
+28: 					mimage=null;;
+29: 				}
+30: 			}
+31: 		}
+32: 		return mimage==null ? new Image(getClass().getResourceAsStream("billboard.jpg")):mimage;
+33: 	}
+34: 	
+35: 	public synchronized void getAllImages(ArrayList<Billbaord> bills){
+36: 		images.clear();//내용이 많아서 초과할 수 있다. 
+37: 		List<Billbaord> newbills=Collections.synchronizedList(bills);
+38: 		for(Billbaord bb: newbills){
+39: //			new Thread(new Runnable() {
+40: //				@Override
+41: //				public void run() {
+42: //					if(!images.containsKey(bb.getImagesrc())){
+43: //						images.put(bb.getImagesrc(), loadImage(bb.getImagesrc()));
+44: //						System.out.println(bb.getImagesrc()+"-------Map에  Image저장---------------->>>>>>>>>>>>>>");  
+45: //					}
+46: //				}
+47: //			}).start();
+48: 			new Thread(() ->{
+49: 					if(!images.containsKey(bb.getImagesrc())){
+50: 						images.put(bb.getImagesrc(), loadImage(bb.getImagesrc()));
+51: 						//System.out.println(bb.getImagesrc()+"\t\t\t-------Map에  Image저장----------->>>>>>>>>>>>>>");  
+52: 					}
+53: 			}).start();
+54: 		}
+55: 	}
+56: 
+57: }
+58: //q__________.jpg

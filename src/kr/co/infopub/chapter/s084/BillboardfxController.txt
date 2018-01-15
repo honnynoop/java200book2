@@ -1,0 +1,37 @@
+01: package kr.co.infopub.chapter.s084;
+02: import javafx.event.ActionEvent;
+03: import javafx.fxml.FXML;
+04: import javafx.scene.control.Button;
+05: import javafx.scene.control.Label;
+06: import javafx.scene.control.TableColumn;
+07: import javafx.scene.control.TableView;
+08: import javafx.scene.web.WebView;
+09: public class BillboardfxController {
+10: 	@FXML
+11: 	private TableView<Billbaord> billobardTable;
+12:     @FXML
+13:     private TableColumn<Billbaord, String> song;
+14:     @FXML
+15:     private TableColumn<Billbaord, String> artist;
+16:     @FXML
+17:     private TableColumn<Billbaord, Integer> lastweek;
+18:     @FXML
+19:     private TableColumn<Billbaord, Integer> rank;
+20:     @FXML
+21:     private TableColumn<Billbaord, String> imagesrc;
+22:     @FXML
+23:     private WebView billwebview;
+24:     @FXML
+25:     private Button btnAf;
+26:     @FXML
+27:     private Button btnBf;
+28:     @FXML
+29:     private Label lbbill;
+30: 
+31:     @FXML
+32:     void onClickBtnBf(ActionEvent event) {}
+33:     @FXML
+34:     void onClickBtnAf(ActionEvent event) {}
+35:     @FXML
+36:     void initialize() {}
+37: }

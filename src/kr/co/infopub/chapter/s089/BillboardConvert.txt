@@ -1,0 +1,38 @@
+01: package kr.co.infopub.chapter.s089;
+02: 
+03: import java.util.ArrayList;
+04: 
+05: import java.util.List;
+06: 
+07: import javafx.collections.FXCollections;
+08: import javafx.collections.ObservableList;
+09: 
+10: public class BillboardConvert {
+11: 
+12: 	public static BillbaordProperty toBill(Billbaord b){
+13: 		BillbaordProperty bp=new BillbaordProperty();
+14: 		bp.setRank(b.getRank());
+15: 		bp.setSong(b.getSong());
+16: 		bp.setArtist(b.getArtist());
+17: 		bp.setImagesrc(b.getImagesrc());
+18: 		bp.setLastweek(b.getLastweek());
+19: 		return bp;
+20: 	}
+21: 	
+22: 	public static ArrayList<BillbaordProperty> toBill(ArrayList<Billbaord> blist){
+23: 		ArrayList<BillbaordProperty> bplists=new ArrayList<>();
+24: 		for(Billbaord b:blist){
+25: 			bplists.add(toBill(b));
+26: 		}
+27: 		return bplists;
+28: 	}
+29: 	public static ObservableList<BillbaordProperty> toBillboard(ArrayList<BillbaordProperty> alists){
+30: 		ObservableList<BillbaordProperty> bList = FXCollections.observableArrayList(alists);
+31: 		return bList;
+32: 	}
+33: 	
+34: 	public static ObservableList<BillbaordProperty> toObservBill(ArrayList<Billbaord> alists){
+35: 		return toBillboard(toBill(alists));
+36: 	}
+37: 	
+38: }

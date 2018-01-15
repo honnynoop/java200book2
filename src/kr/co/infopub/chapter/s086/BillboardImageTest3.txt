@@ -1,0 +1,77 @@
+01: package kr.co.infopub.chapter.s086;
+02: 
+03: import java.util.ArrayList;
+04: 
+05: import javafx.application.Application;
+06: import javafx.geometry.Insets;
+07: import javafx.geometry.Pos;
+08: import javafx.scene.Group;
+09: import javafx.scene.Scene;
+10: import javafx.scene.image.Image;
+11: import javafx.scene.image.ImageView;
+12: import javafx.scene.layout.HBox;
+13: import javafx.scene.layout.VBox;
+14: import javafx.stage.Stage;
+15:  
+16: public class BillboardImageTest3 extends Application {
+17:  
+18:     public static void main(String[] args) {
+19:         launch(args);
+20:     }
+21:     ImageFXListRequest  request=new ImageFXListRequest();
+22:     RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+23:     
+24:     @Override
+25:     public void start(Stage primaryStage) {
+26: 
+27: 		String a="http://www.billboard.com/charts/hot-100/";
+28: 		String rs=rfw.getTimeDate(a);
+29: 		//rs=rfw.toWantedDay(rs);//10주전
+30: 		System.out.println(rs+"------------------Billboard Chart !!!");
+31: 		rfw.getAllHtml(a);
+32: 
+33: 		String str="<article class=\"chart-row";
+34: 
+35: 		rfw.getBillboardData(str);
+36: 		
+37: 		ArrayList<Billbaord> bills=rfw.getBillbaords();
+38: 		//계속 읽는 것을 방지
+39: 		request.getAllImages(bills);  //image를 맵에 저장
+40: 		ImageView nimageView = new ImageView();
+41: 		nimageView.setFitWidth(250);
+42: 		nimageView.setFitHeight(250);
+43: 		VBox root = new VBox(10);
+44:         //인터넷
+45:         int col=10; 
+46:         int row=bills.size()/col;
+47:         for(int i=0; i<row; i++){
+48:         	HBox hbox = new HBox(10);            // 한줄에 10개를 묶는다.
+49:             hbox.setPadding(new Insets(5));
+50:             hbox.setAlignment(Pos.CENTER);
+51:         	for (int j = 0; j < col; j++) {      
+52:         		Billbaord b=bills.get(i*col+j);  
+53:             	ImageView imageView = new ImageView(request.loadImage(b.getImagesrc()));
+54:             	imageView.setFitWidth(50);
+55:             	imageView.setFitHeight(50);
+56:             	imageView.setOnMouseClicked(ee->{
+57:             		nimageView.setImage(request.loadImage(b.getImagesrc()));
+58:             	});
+59:             	hbox.getChildren().add(imageView);
+60: 			}
+61:         	root.getChildren().add(hbox);        // 아래로 HBox를 붙인다. 
+62:         }
+63:         
+64:         HBox hbox2 = new HBox(10);            // 한줄에 10개를 묶는다.
+65:         hbox2.setPadding(new Insets(5));
+66:         hbox2.setAlignment(Pos.CENTER);
+67:         hbox2.getChildren().add(nimageView);
+68:         root.getChildren().add(hbox2);
+69:         
+70:         primaryStage.setScene(new Scene(root, 60*col, 70*col+260));
+71:         primaryStage.setTitle("Billboard Image");
+72:         primaryStage.show();
+73:     }
+74:     
+75: }
+76: 
+77:    

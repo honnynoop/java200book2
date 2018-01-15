@@ -1,0 +1,54 @@
+01: package kr.co.infopub.chapter.s086;
+02: import java.util.ArrayList;
+03: import javafx.application.Application;
+04: import javafx.geometry.Insets;
+05: import javafx.geometry.Pos;
+06: import javafx.scene.Scene;
+07: import javafx.scene.image.ImageView;
+08: import javafx.scene.layout.HBox;
+09: import javafx.scene.layout.VBox;
+10: import javafx.stage.Stage;
+11: public class BillboardImageTest2 extends Application {
+12:  public static void main(String[] args) {
+13:     launch(args);
+14:  }
+15:  ImageFXListRequest  request=new ImageFXListRequest();
+16:  RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+17:  @Override
+18:  public void start(Stage primaryStage) {
+19: 	String a="http://www.billboard.com/charts/hot-100/";
+20: 	String rs=rfw.getTimeDate(a);
+21: 	//rs=rfw.toWantedDay(rs);//10주전
+22: 	System.out.println(rs+"------------------Billboard Chart !!!");
+23: 	rfw.getAllHtml(a);
+24: 	String str="<article class=\"chart-row";
+25: 	rfw.getBillboardData(str);
+26: 	ArrayList<Billbaord> bills=rfw.getBillbaords();
+27: 	//계속 읽는 것을 방지
+28: 	request.getAllImages(bills);  //image를 맵에 저장
+29: 	VBox root = new VBox(10);     // HBox 10개 저장위함
+30:     //인터넷
+31:     int col=10; 
+32:     int row=bills.size()/col;
+33:     for(int i=0; i<row; i++){
+34:     	HBox hbox = new HBox(10);          // 한줄에 10개를 묶는다.
+35:         hbox.setPadding(new Insets(5));
+36:         hbox.setAlignment(Pos.CENTER);
+37:     	for (int j = 0; j < col; j++) {      
+38:     		Billbaord b=bills.get(i*col+j);  
+39:         	ImageView imageView = 
+40:         	  new ImageView(request.loadImage(b.getImagesrc()));
+41:         	imageView.setFitWidth(50);
+42:         	imageView.setFitHeight(50);
+43:         	imageView.setOnMouseClicked(ee->{
+44:         		System.out.println(b.getImagesrc());
+45:         	});
+46:         	hbox.getChildren().add(imageView);
+47: 		}
+48:     	root.getChildren().add(hbox);        // 아래로 HBox를 붙인다. 
+49:     }
+50:     primaryStage.setScene(new Scene(root, 60*col, 70*row));
+51:     primaryStage.setTitle("Billboard Image");
+52:     primaryStage.show();
+53:  }
+54: }

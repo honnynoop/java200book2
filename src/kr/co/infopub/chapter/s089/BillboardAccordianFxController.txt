@@ -1,0 +1,87 @@
+01: package kr.co.infopub.chapter.s089;
+02: import java.util.ArrayList;
+03: import javafx.collections.ObservableList;
+04: import javafx.fxml.FXML;
+05: import javafx.scene.control.Accordion;
+06: import javafx.scene.control.TitledPane;
+07: import javafx.scene.control.TreeItem;
+08: import javafx.scene.control.TreeView;
+09: import javafx.scene.image.ImageView;
+10: import javafx.scene.web.WebEngine;
+11: import javafx.scene.web.WebView;
+12: public class BillboardAccordianFxController {
+13: 	
+14:  @FXML
+15:  private Accordion baccordina;
+16:  @FXML
+17:  private TreeView<String> youtrv;
+18:  @FXML
+19:  private WebView webview;
+20:  ObservableList<BillbaordProperty> obsbills;
+21:  ImageFXListRequest  request=new ImageFXListRequest();
+22:  YoutupeParser parser=new YoutupeParser();
+23:  TreeItem<String> root = new TreeItem<String>("Singer ");
+24: 
+25:  @FXML
+26:  void initialize() {
+27: 	getAllBillboard();
+28: 	showAllBillboard();
+29: 	youtrv.getSelectionModel().selectedItemProperty().addListener(
+30:     		(observable, oldValue, newValue) -> {
+31:     			if(newValue!=null){
+32:     				final WebEngine webEngine = webview.getEngine();
+33:     				 //https://www.youtube.com/watch?v=2vjPBrBU-TM
+34:     				String ttt=String.format("https://www.youtube.com/watch?v=%s",
+35:     						           ((TreeItem<String>)newValue).getValue());
+36:     				webEngine.load(ttt);
+37:     			}
+38:     		});
+39: 	youtrv.setRoot(root);
+40:  }
+41:  public void loadTreeItems(String key){
+42: 	root.getChildren().clear();
+43: 	TreeItem<String> abs = new TreeItem<String>(key);
+44: 	root.getChildren().add(abs);
+45: 	root.setExpanded(true);
+46: 	ArrayList<Youtube> youlist=parser.getTitles(key);
+47: 	for(Youtube you:youlist){
+48: 		TreeItem<String> aa=new TreeItem<String>(you.getUrl());
+49: 		abs.getChildren().add(aa);
+50: 	   	System.out.println(you.getUrl()+"---------------------------->");
+51: 	}
+52:  }
+53:  public void getAllBillboard(){
+54: 	RequestFromBillboardHot rfw=new RequestFromBillboardHot();
+55: 	String a="http://www.billboard.com/charts/hot-100/";
+56: 	String rs=rfw.getTimeDate(a);
+57: 	//rs=rfw.toWantedDay(rs, 1);//1주전
+58: 	System.out.println(rs);
+59: 	rfw.getAllHtml(a+rs);
+60: 	String str="<article class=\"chart-row";
+61: 	rfw.getBillboardData(str);
+62: 	ArrayList<Billbaord> bills=rfw.getBillbaords();
+63: 	request.getAllImages(bills);  //image를 맵에 저장
+64: 	obsbills= BillboardConvert.toObservBill(bills);
+65:  }
+66:  public void showAllBillboard(){
+67: 	//TitledPane firsttitle = new TitledPane();
+68: 	if(obsbills!=null){
+69: 		for(BillbaordProperty bp: obsbills){
+70: 			TitledPane mytitle = new TitledPane();
+71: 			mytitle.setText(bp.getRank()+". "+bp.getArtist());
+72:     		ImageView theImage = new ImageView(request.loadImage(bp.getImagesrc()));
+73:     		theImage.setOnMouseClicked(event -> {
+74:     			if(mytitle.getText()!=null || mytitle.getText().indexOf(".")!=-1 ){
+75:     				System.out.println(mytitle.getText()+"----------------->>>");//ok
+76:         			loadTreeItems(mytitle.getText());
+77:     			}
+78:             });
+79:     		theImage.setFitHeight(50);
+80:     		theImage.setFitWidth(50);
+81:     		theImage.setPreserveRatio (false);
+82:     		mytitle.setContent(theImage);
+83:     		baccordina.getPanes().add(mytitle);
+84: 		}
+85: 	}
+86:  }
+87: }

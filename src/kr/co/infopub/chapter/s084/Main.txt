@@ -1,0 +1,31 @@
+01: package kr.co.infopub.chapter.s084;
+02: import javafx.application.Application;
+03: import javafx.stage.Stage;
+04: import javafx.scene.Scene;
+05: import javafx.scene.image.Image;
+06: import javafx.scene.layout.BorderPane;
+07: import javafx.fxml.FXMLLoader;
+08: public class Main extends Application {
+09:  @Override
+10:  public void start(Stage primaryStage) {
+11:   try {
+12: 	primaryStage.setTitle("Billboard Chart 2017");
+13: 	BorderPane root = (BorderPane)FXMLLoader.load(getClass().
+14: 			                       getResource("Billboardfx2.fxml"));
+15: 	Scene scene = new Scene(root,1400,800);
+16: 	scene.getStylesheets().add(getClass().
+17: 			getResource("application.css").toExternalForm());
+18: 	primaryStage.setScene(scene);
+19: 	primaryStage.getIcons().add(
+20: 			new Image(getClass().getResourceAsStream("logo.png")));
+21: 	primaryStage.setResizable(false);
+22: 	primaryStage.show();
+23: 	
+24:   } catch(Exception e) {
+25: 	e.printStackTrace();
+26:   }
+27:  } 
+28:  public static void main(String[] args) {
+29: 	launch(args);
+30:  }
+31: }

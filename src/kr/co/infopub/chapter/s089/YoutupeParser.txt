@@ -1,0 +1,116 @@
+001: package kr.co.infopub.chapter.s089;
+002: 
+003: import java.io.BufferedReader;
+004: import java.io.FileWriter;
+005: import java.io.IOException;
+006: 
+007: import java.io.InputStreamReader;
+008: import java.io.OutputStreamWriter;
+009: import java.io.PrintWriter;
+010: import java.io.UnsupportedEncodingException;
+011: 
+012: import java.net.MalformedURLException;
+013: 
+014: import java.net.URL;
+015: 
+016: import java.net.URLDecoder;
+017: 
+018: import java.net.URLEncoder;
+019: 
+020: import java.util.ArrayList;
+021: 
+022: public class YoutupeParser{
+023: 	
+024: 	public static void main(String[] args) {
+025: 		YoutupeParser parser=new YoutupeParser();
+026: 		ArrayList<Youtube> youlist=parser.getTitles("sia");
+027: 		for(Youtube you:youlist){
+028: 			System.out.println(you);
+029: 		}
+030: 	}
+031: 	ArrayList<String> htmls = new ArrayList<>();
+032: 	
+033: 	public  ArrayList<String> search(String s)
+034: 	{
+035: 		String urls = "https://www.youtube.com/results?search_query=";
+036: 		htmls.clear();
+037: 		BufferedReader br = null;
+038: 		try 
+039: 		{
+040: 			String ss = URLEncoder.encode(s, "utf-8");
+041: 			System.out.println(ss);
+042: 			URL url = new URL(urls + ss);
+043: 			br = new BufferedReader(new InputStreamReader(url.openStream(), "utf-8"));
+044: 			String msg = "";
+045: 			while ((msg = br.readLine()) != null){// EOF
+046: 				if (msg.trim().contains("class=\"yt-uix-tile-link yt-ui-ellipsis yt-ui-ellipsis-2 yt-uix-sessionlink")) {
+047: 					htmls.add(msg.trim());
+048: 				}
+049: 			}
+050: 		} 
+051: 		catch (MalformedURLException e) {
+052: 			e.printStackTrace();
+053: 		} catch (IOException e) {
+054: 			e.printStackTrace();
+055: 		}
+056: 		return htmls;
+057: 	}
+058: 	//2017.4.12 /watch?v=PCaKey131NQ&dafdsfasd에서 & 제거
+059: 	public String toUrl(String msg){
+060: 		String tt="";
+061: 		if(msg.indexOf("&")==-1){//없다면
+062: 			tt=msg;
+063: 		}else{
+064: 			tt=msg.substring(0, msg.indexOf("&"));
+065: 		}
+066: 		return tt;
+067: 	}
+068: 	public String toUrl2(String msg){
+069: 		String tt="";
+070: 		if(msg.indexOf("=")==-1){//없다면
+071: 			tt=msg;
+072: 		}else{
+073: 			tt=msg.substring(msg.indexOf("=")+1);
+074: 		}
+075: 		return tt;
+076: 	}
+077: 	public String toUrl3(String msg){
+078: 		String tt="";
+079: 		if(msg.indexOf(";")==-1){//없다면
+080: 			tt=msg;
+081: 		}else{
+082: 			tt=msg.substring(0,msg.indexOf(";"));
+083: 		}
+084: 		return tt;
+085: 	}
+086: 	// 제목
+087: 	public ArrayList<Youtube> getTitles(String key) {
+088: 		
+089: 		ArrayList<Youtube> af = new ArrayList<Youtube>();
+090: 		int i = 0;
+091: 		ArrayList<String> asd = search(key);
+092: 
+093: 		for(int j=0; j<asd.size(); j++){
+094: 			try{
+095: 				String[] fu = asd.get(i).split("\"");
+096: 				String url = URLDecoder.decode(fu[5], "EUC-KR");
+097: 				System.out.println("---------------------->"+url);
+098: 				String title = URLDecoder.decode(fu[11], "EUC-KR");
+099: 				//String ing =img.get(i);
+100: 				Youtube f = new Youtube(title,toUrl3(toUrl2(url)),"");
+101: 				//Youtube f = new Youtube(title,url,"");
+102: 				//private String title;
+103: 				//private String url;
+104: 				//private String img;
+105: 				af.add(f);
+106: 			} 
+107: 			catch (UnsupportedEncodingException e) {
+108: 				e.printStackTrace();
+109: 			}
+110: 			i++;
+111: 		}
+112: 		return af;
+113: 
+114: 	}
+115: 
+116: }
